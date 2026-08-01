@@ -1195,5 +1195,195 @@ setInterval(updateCountdown,1000);
 
 </script>
 
+
+<!-- Música: Jujutsu Kaisen S2 OP - Ao no Sumika -->
+<section class="music-player" aria-label="Música">
+  <div class="music-title">🎵 Jujutsu Kaisen — Opening S2</div>
+  <div class="music-subtitle">Ao no Sumika</div>
+  <div class="music-video">
+    <iframe
+      src="https://www.youtube-nocookie.com/embed/zuoVd2QNxJo?rel=0&modestbranding=1"
+      title="Ao no Sumika - Tatsuya Kitani"
+      loading="lazy"
+      allow="autoplay; encrypted-media; picture-in-picture"
+      allowfullscreen>
+    </iframe>
+  </div>
+</section>
+<style>
+.music-player{margin:18px auto;max-width:760px;padding:16px;border-radius:16px;background:rgba(255,255,255,.06);backdrop-filter:blur(8px)}
+.music-title{font-weight:700;font-size:18px}.music-subtitle{opacity:.75;margin:3px 0 12px}
+.music-video{position:relative;width:100%;aspect-ratio:16/9;overflow:hidden;border-radius:12px}
+.music-video iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+</style>
+
+
+<!-- MINI JUEGO: LAVA DODGE -->
+<section id="lavaMiniGame" class="mini-game">
+  <div class="mini-head">
+    <div>
+      <h2>🔥 LAVA DODGE</h2>
+      <p>Esquiva la lava, recoge monedas y consigue el récord.</p>
+    </div>
+    <div class="mini-stats">
+      <span>🏆 <b id="lgScore">0</b></span>
+      <span>⭐ <b id="lgBest">0</b></span>
+    </div>
+  </div>
+
+  <div class="lg-wrap">
+    <canvas id="lavaCanvas" width="700" height="390"></canvas>
+    <div id="lgStart" class="lg-overlay">
+      <div class="lg-card">
+        <div class="lg-big">🔥</div>
+        <h3>LAVA DODGE</h3>
+        <p>Mueve al personaje y sobrevive todo lo que puedas.</p>
+        <button id="lgStartBtn">JUGAR</button>
+      </div>
+    </div>
+    <div id="lgGameOver" class="lg-overlay" hidden>
+      <div class="lg-card">
+        <div class="lg-big">💥</div>
+        <h3>¡TE ALCANZÓ LA LAVA!</h3>
+        <p>Puntuación: <b id="lgFinal">0</b></p>
+        <button id="lgRestartBtn">VOLVER A JUGAR</button>
+      </div>
+    </div>
+  </div>
+  <div class="lg-controls">PC: <b>WASD</b> o <b>Flechas</b> · Móvil: arrastra el dedo sobre el juego</div>
+</section>
+
+<style>
+.mini-game{max-width:900px;margin:28px auto;padding:18px;border-radius:22px;background:rgba(10,10,18,.82);border:1px solid rgba(255,255,255,.12);box-shadow:0 14px 45px rgba(0,0,0,.25);color:#fff}
+.mini-head{display:flex;justify-content:space-between;gap:15px;align-items:center;margin-bottom:14px}
+.mini-head h2{margin:0;font-size:24px}.mini-head p{margin:5px 0 0;opacity:.7}
+.mini-stats{display:flex;gap:12px}.mini-stats span{padding:8px 12px;border-radius:12px;background:rgba(255,255,255,.08)}
+.lg-wrap{position:relative;width:100%;max-width:700px;margin:auto;border-radius:16px;overflow:hidden;background:#080812}
+#lavaCanvas{display:block;width:100%;height:auto;touch-action:none}
+.lg-overlay{position:absolute;inset:0;display:grid;place-items:center;background:rgba(0,0,0,.48);backdrop-filter:blur(3px)}
+.lg-overlay[hidden]{display:none}
+.lg-card{text-align:center;padding:24px;max-width:340px}.lg-card h3{font-size:30px;margin:5px 0}.lg-card p{opacity:.8}
+.lg-big{font-size:48px}.lg-card button{border:0;border-radius:12px;padding:12px 24px;font-weight:800;cursor:pointer;background:#fff;color:#111}
+.lg-controls{text-align:center;opacity:.65;font-size:13px;margin-top:10px}
+</style>
+
+<script>
+(() => {
+  const canvas = document.getElementById("lavaCanvas");
+  if (!canvas) return;
+  const ctx = canvas.getContext("2d");
+  const W = canvas.width, H = canvas.height;
+  const scoreEl = document.getElementById("lgScore");
+  const bestEl = document.getElementById("lgBest");
+  const start = document.getElementById("lgStart");
+  const over = document.getElementById("lgGameOver");
+  const finalEl = document.getElementById("lgFinal");
+  const startBtn = document.getElementById("lgStartBtn");
+  const restartBtn = document.getElementById("lgRestartBtn");
+
+  let best = Number(localStorage.getItem("lavaDodgeBest") || 0);
+  bestEl.textContent = best;
+
+  const keys = {};
+  let running = false, score = 0, speed = 2.3, last = 0, spawn = 0;
+  const player = {x: W/2, y: H-55, r:15, vx:0, vy:0};
+  let rocks = [], coins = [], particles = [];
+
+  function reset(){
+    score=0; speed=2.3; spawn=0; rocks=[]; coins=[]; particles=[];
+    player.x=W/2; player.y=H-55; player.vx=0; player.vy=0;
+    scoreEl.textContent="0";
+  }
+  function startGame(){
+    reset(); running=true; start.hidden=true; over.hidden=true;
+    last=performance.now(); requestAnimationFrame(loop);
+  }
+  function endGame(){
+    running=false; finalEl.textContent=Math.floor(score);
+    if(score>best){best=Math.floor(score); localStorage.setItem("lavaDodgeBest",best); bestEl.textContent=best;}
+    over.hidden=false;
+  }
+  function spawnRock(){
+    const r=10+Math.random()*13;
+    rocks.push({x:r+Math.random()*(W-r*2),y:-30,r,vy:speed*(.85+Math.random()*.5),rot:Math.random()*6});
+  }
+  function spawnCoin(){
+    coins.push({x:18+Math.random()*(W-36),y:-20,r:8,vy:speed*.8,spin:0});
+  }
+  function burst(x,y,n=10){
+    for(let i=0;i<n;i++) particles.push({x,y,vx:(Math.random()-.5)*4,vy:(Math.random()-.5)*4,life:30});
+  }
+  function circleHit(a,b){return Math.hypot(a.x-b.x,a.y-b.y)<a.r+b.r-3}
+
+  function update(dt){
+    const accel=0.42;
+    if(keys.ArrowLeft||keys.a) player.vx-=accel;
+    if(keys.ArrowRight||keys.d) player.vx+=accel;
+    if(keys.ArrowUp||keys.w) player.vy-=accel;
+    if(keys.ArrowDown||keys.s) player.vy+=accel;
+    player.vx*=.88; player.vy*=.88;
+    player.x+=player.vx*dt; player.y+=player.vy*dt;
+    player.x=Math.max(18,Math.min(W-18,player.x)); player.y=Math.max(18,Math.min(H-18,player.y));
+
+    score += dt*.055;
+    speed += dt*.00045;
+    spawn -= dt;
+    if(spawn<=0){spawn=420-Math.min(210,score*1.2); spawnRock(); if(Math.random()<.55)spawnCoin();}
+    rocks.forEach(o=>o.y+=o.vy*dt);
+    coins.forEach(o=>{o.y+=o.vy*dt;o.spin+=.15*dt});
+    rocks=rocks.filter(o=>o.y<H+40);
+    coins=coins.filter(o=>o.y<H+30);
+
+    for(const o of rocks) if(circleHit(player,o)){burst(player.x,player.y,18);endGame();return;}
+    coins=coins.filter(o=>{
+      if(circleHit(player,o)){score+=15;burst(o.x,o.y,8);return false}
+      return true;
+    });
+    particles.forEach(p=>{p.x+=p.vx*dt;p.y+=p.vy*dt;p.life-=dt});
+    particles=particles.filter(p=>p.life>0);
+    scoreEl.textContent=Math.floor(score);
+  }
+
+  function draw(){
+    const g=ctx.createLinearGradient(0,0,0,H);g.addColorStop(0,"#09091a");g.addColorStop(1,"#21060b");
+    ctx.fillStyle=g;ctx.fillRect(0,0,W,H);
+    // lava river
+    ctx.fillStyle="#ff3b16";ctx.fillRect(0,H-12,W,12);
+    for(let x=0;x<W;x+=38){ctx.fillStyle="#ff8a00";ctx.fillRect((x+performance.now()/18)%W,H-12,18,3)}
+    // background sparks
+    for(let i=0;i<45;i++){const x=(i*83)%W,y=(i*47)%H;ctx.fillStyle="rgba(255,100,30,.18)";ctx.fillRect(x,y,2,2)}
+    // coins
+    coins.forEach(o=>{ctx.save();ctx.translate(o.x,o.y);ctx.rotate(o.spin);ctx.fillStyle="#ffd43b";ctx.beginPath();ctx.arc(0,0,o.r,0,Math.PI*2);ctx.fill();ctx.fillStyle="#fff3a0";ctx.fillRect(-2,-5,4,10);ctx.restore()});
+    // rocks
+    rocks.forEach(o=>{ctx.save();ctx.translate(o.x,o.y);ctx.rotate(o.rot);ctx.fillStyle="#ff5a20";ctx.beginPath();ctx.moveTo(-o.r,3);ctx.lineTo(-o.r*.55,-o.r);ctx.lineTo(o.r*.55,-o.r*.8);ctx.lineTo(o.r,2);ctx.lineTo(o.r*.4,o.r);ctx.lineTo(-o.r*.7,o.r*.75);ctx.closePath();ctx.fill();ctx.restore()});
+    // player
+    ctx.save();ctx.translate(player.x,player.y);ctx.fillStyle="#55d6ff";ctx.beginPath();ctx.arc(0,0,player.r,0,Math.PI*2);ctx.fill();ctx.fillStyle="#fff";ctx.beginPath();ctx.arc(-5,-3,3,0,Math.PI*2);ctx.arc(5,-3,3,0,Math.PI*2);ctx.fill();ctx.restore();
+    particles.forEach(p=>{ctx.globalAlpha=Math.max(0,p.life/30);ctx.fillStyle="#ffb000";ctx.fillRect(p.x,p.y,4,4);ctx.globalAlpha=1});
+  }
+
+  function loop(t){
+    if(!running)return;
+    const dt=Math.min(2,(t-last)/16.67);last=t;
+    update(dt);draw();
+    if(running)requestAnimationFrame(loop);
+  }
+
+  window.addEventListener("keydown",e=>{keys[e.key]=true;if(["ArrowUp","ArrowDown","ArrowLeft","ArrowRight"," "].includes(e.key))e.preventDefault()});
+  window.addEventListener("keyup",e=>{keys[e.key]=false});
+  let touch=null;
+  canvas.addEventListener("pointerdown",e=>{touch={x:e.offsetX,y:e.offsetY};canvas.setPointerCapture(e.pointerId)});
+  canvas.addEventListener("pointermove",e=>{
+    if(!touch||!running)return;
+    const dx=e.offsetX-touch.x,dy=e.offsetY-touch.y;
+    player.x+=dx*0.9;player.y+=dy*0.9;
+    player.x=Math.max(18,Math.min(W-18,player.x));player.y=Math.max(18,Math.min(H-18,player.y));
+    touch={x:e.offsetX,y:e.offsetY};
+  });
+  canvas.addEventListener("pointerup",()=>touch=null);
+  startBtn.onclick=startGame; restartBtn.onclick=startGame;
+  draw();
+})();
+</script>
+
 </body>
 </html>
