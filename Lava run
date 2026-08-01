@@ -1,0 +1,1096 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LAVA RUN — Tráiler</title>
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+
+:root{
+  --lava:#ff4b16;
+  --lava2:#ff7a18;
+  --dark:#070405;
+  --panel:rgba(16,7,7,.78);
+}
+
+body{
+  min-height:100vh;
+  overflow-x:hidden;
+  font-family:Arial,Helvetica,sans-serif;
+  color:#fff;
+  background:
+    radial-gradient(circle at 50% 115%,rgba(255,65,0,.5),transparent 35%),
+    radial-gradient(circle at 5% 20%,rgba(110,0,0,.55),transparent 35%),
+    linear-gradient(135deg,#050505,#160708,#050505);
+}
+
+/* Fondo */
+.bg{position:fixed;inset:0;overflow:hidden;pointer-events:none;z-index:0}
+.particle{
+  position:absolute;
+  border-radius:50%;
+  background:#ff6418;
+  box-shadow:0 0 12px #ff3d00,0 0 25px rgba(255,60,0,.6);
+  animation:rise linear infinite;
+}
+@keyframes rise{
+  from{transform:translateY(110vh);opacity:0}
+  15%{opacity:1}
+  100%{transform:translateY(-20vh);opacity:0}
+}
+
+/* Navegación */
+.nav{
+  position:relative;
+  z-index:3;
+  width:min(1100px,92%);
+  margin:20px auto 0;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:12px 16px;
+  border:1px solid rgba(255,90,30,.16);
+  border-radius:14px;
+  background:rgba(0,0,0,.25);
+  backdrop-filter:blur(10px);
+}
+.brand{font-size:12px;letter-spacing:4px;color:#aaa}
+.nav-buttons{display:flex;gap:8px}
+.nav-btn{
+  border:1px solid rgba(255,255,255,.1);
+  background:rgba(255,255,255,.05);
+  color:#aaa;
+  padding:9px 13px;
+  border-radius:9px;
+  cursor:pointer;
+  transition:.2s;
+}
+.nav-btn:hover{color:#fff;border-color:rgba(255,90,30,.45)}
+
+/* Principal */
+.container{
+  position:relative;
+  z-index:2;
+  width:min(950px,92%);
+  margin:45px auto 80px;
+  padding:55px 30px 42px;
+  text-align:center;
+  border:1px solid rgba(255,80,20,.28);
+  border-radius:28px;
+  background:var(--panel);
+  backdrop-filter:blur(14px);
+  box-shadow:0 0 70px rgba(255,45,0,.13),inset 0 0 50px rgba(255,50,0,.04);
+  animation:enter 1s ease;
+}
+@keyframes enter{
+  from{opacity:0;transform:translateY(25px) scale(.97)}
+  to{opacity:1;transform:translateY(0) scale(1)}
+}
+
+.top{
+  font-size:12px;
+  letter-spacing:7px;
+  color:#aaa;
+  margin-bottom:13px;
+}
+h1{
+  font-size:clamp(65px,12vw,135px);
+  font-weight:1000;
+  font-style:italic;
+  letter-spacing:6px;
+  line-height:.9;
+  color:#fff;
+  text-shadow:0 4px 0 #8b1d00,0 8px 0 #4e1000,0 0 22px #ff3d00,0 0 55px rgba(255,60,0,.7);
+  animation:fire 2s infinite alternate;
+}
+@keyframes fire{
+  from{filter:brightness(1)}
+  to{filter:brightness(1.15)}
+}
+.subtitle{
+  margin-top:16px;
+  font-size:16px;
+  letter-spacing:8px;
+  color:#ff6932;
+}
+.date{
+  margin-top:30px;
+  font-size:13px;
+  letter-spacing:5px;
+  color:#888;
+}
+
+/* Contador */
+.countdown{
+  margin:28px auto 32px;
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:12px;
+  max-width:700px;
+}
+.box{
+  padding:18px 8px;
+  border-radius:14px;
+  background:rgba(255,255,255,.035);
+  border:1px solid rgba(255,80,30,.18);
+}
+.number{display:block;font-size:clamp(30px,5vw,52px);font-weight:bold}
+.label{display:block;margin-top:6px;font-size:9px;letter-spacing:3px;color:#777}
+
+/* Tráiler */
+.section-title{
+  font-size:12px;
+  letter-spacing:6px;
+  color:#aaa;
+  margin-bottom:14px;
+}
+.trailer-button{
+  width:275px;
+  height:68px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:14px;
+  margin:auto;
+  border-radius:12px;
+  border:1px solid rgba(255,255,255,.13);
+  background:linear-gradient(135deg,rgba(255,255,255,.08),rgba(0,0,0,.45));
+  color:#666;
+  font-size:13px;
+  font-weight:bold;
+  letter-spacing:3px;
+  cursor:not-allowed;
+  box-shadow:inset 0 0 20px rgba(0,0,0,.5),0 8px 25px rgba(0,0,0,.3);
+}
+.lock{font-size:27px}
+.trailer-button.unlocked{
+  cursor:pointer;color:#fff;border-color:#ff4b18;
+  background:linear-gradient(135deg,#8d2108,#e33b0a);
+  box-shadow:0 0 28px rgba(255,60,0,.4);
+}
+.status{margin-top:12px;font-size:10px;letter-spacing:3px;color:#555}
+
+/* Interacción */
+.interactive{
+  margin:35px auto 0;
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:16px;
+  max-width:700px;
+}
+.card{
+  min-height:145px;
+  padding:22px;
+  border-radius:18px;
+  border:1px solid rgba(255,255,255,.09);
+  background:rgba(255,255,255,.035);
+}
+.card-title{font-size:11px;letter-spacing:4px;color:#888;margin-bottom:15px}
+
+/* Pelota */
+.ball-wrap{display:flex;justify-content:center;align-items:center;gap:18px}
+.ball{
+  width:68px;height:68px;border-radius:50%;
+  border:0;
+  background:radial-gradient(circle at 30% 25%,#fff58a 0,#ffd21a 25%,#ffae00 60%,#d66a00 100%);
+  box-shadow:0 0 18px rgba(255,190,0,.65),0 0 45px rgba(255,130,0,.25);
+  cursor:pointer;
+  font-size:28px;
+  transition:.2s;
+  animation:float 2s ease-in-out infinite;
+}
+.ball:hover{transform:scale(1.08) rotate(8deg)}
+.ball:active{transform:scale(.92)}
+@keyframes float{50%{transform:translateY(-7px)}}
+.quote{
+  flex:1;
+  text-align:left;
+  color:#bbb;
+  font-size:13px;
+  line-height:1.45;
+}
+.quote strong{display:block;color:#ffbd27;margin-bottom:5px}
+
+/* IA bloqueada */
+.ai-box{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  height:100%;
+}
+.ai-lock{
+  font-size:30px;
+  margin-bottom:9px;
+  filter:grayscale(1);
+}
+.ai-name{font-size:15px;font-weight:bold;letter-spacing:2px}
+.ai-status{margin-top:7px;font-size:10px;letter-spacing:2px;color:#666}
+.ai-button{
+  margin-top:13px;
+  padding:9px 15px;
+  border-radius:8px;
+  border:1px solid rgba(255,255,255,.08);
+  background:#151010;
+  color:#555;
+  cursor:not-allowed;
+}
+
+
+/* Pared de mensajes */
+.wall{
+  margin:35px auto 0;
+  max-width:700px;
+  padding:24px;
+  border-radius:18px;
+  border:1px solid rgba(255,90,30,.16);
+  background:rgba(255,255,255,.025);
+}
+.wall-help{
+  color:#777;
+  font-size:12px;
+  line-height:1.5;
+  margin:-5px 0 18px;
+}
+.wall-form{
+  display:flex;
+  flex-direction:column;
+  gap:10px;
+}
+.wall-form input,
+.wall-form textarea{
+  width:100%;
+  border:1px solid rgba(255,255,255,.09);
+  border-radius:10px;
+  background:#0c0808;
+  color:#fff;
+  outline:none;
+  padding:12px;
+  font:inherit;
+}
+.wall-form input:focus,
+.wall-form textarea:focus{
+  border-color:rgba(255,80,20,.5);
+}
+.wall-form textarea{
+  min-height:90px;
+  resize:vertical;
+}
+.wall-tools{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px;
+}
+.emoji-row{
+  display:flex;
+  flex-wrap:wrap;
+  gap:5px;
+}
+.emoji-row button{
+  width:34px;
+  height:34px;
+  border:1px solid rgba(255,255,255,.08);
+  border-radius:8px;
+  background:#151010;
+  cursor:pointer;
+  font-size:17px;
+}
+.emoji-row button:hover{transform:translateY(-2px)}
+.publish{
+  border:1px solid #a62c0c;
+  background:linear-gradient(135deg,#6d1808,#b8320b);
+  color:#fff;
+  border-radius:9px;
+  padding:11px 15px;
+  font-weight:bold;
+  letter-spacing:1px;
+  cursor:pointer;
+  white-space:nowrap;
+}
+.publish:hover{filter:brightness(1.15)}
+.wall-messages{
+  display:flex;
+  flex-direction:column;
+  gap:9px;
+  margin-top:20px;
+  max-height:330px;
+  overflow:auto;
+}
+.wall-message{
+  text-align:left;
+  padding:13px;
+  border-radius:11px;
+  background:rgba(0,0,0,.3);
+  border-left:3px solid #ff4b16;
+}
+.wall-user{
+  color:#ff8a55;
+  font-size:11px;
+  font-weight:bold;
+  letter-spacing:1px;
+  margin-bottom:5px;
+}
+.wall-text{
+  color:#ccc;
+  font-size:13px;
+  line-height:1.4;
+  overflow-wrap:anywhere;
+}
+.wall-time{
+  margin-top:7px;
+  color:#555;
+  font-size:9px;
+}
+.wall-empty{
+  margin-top:18px;
+  color:#555;
+  font-size:11px;
+}
+@media(max-width:650px){
+  .wall-tools{align-items:stretch;flex-direction:column}
+  .publish{width:100%}
+}
+
+
+.code-search{
+  position:relative;
+  margin-left:8px;
+}
+.search-toggle{
+  width:34px;height:34px;
+  border-radius:9px;
+  border:1px solid rgba(255,255,255,.1);
+  background:rgba(255,255,255,.05);
+  color:#aaa;
+  font-size:20px;
+  cursor:pointer;
+}
+.search-toggle:hover{color:#fff;border-color:rgba(255,90,30,.45)}
+.search-panel{
+  display:none;
+  position:absolute;
+  right:0;
+  top:43px;
+  z-index:20;
+  padding:8px;
+  gap:6px;
+  border:1px solid rgba(255,80,20,.25);
+  border-radius:10px;
+  background:#100909;
+  box-shadow:0 10px 30px rgba(0,0,0,.45);
+}
+.search-panel.open{display:flex}
+.search-panel input{
+  width:125px;
+  border:1px solid rgba(255,255,255,.1);
+  border-radius:7px;
+  background:#080606;
+  color:#fff;
+  padding:8px;
+  outline:none;
+}
+.search-panel button{
+  border:0;
+  border-radius:7px;
+  background:#b8320b;
+  color:#fff;
+  padding:0 10px;
+  cursor:pointer;
+}
+.discord-section{
+  margin:35px auto 0;
+  max-width:700px;
+}
+.discord-card{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:20px;
+  padding:20px;
+  border-radius:16px;
+  border:1px solid rgba(120,80,255,.2);
+  background:rgba(255,255,255,.035);
+}
+.discord-title{
+  font-weight:bold;
+  letter-spacing:3px;
+  font-size:14px;
+}
+.discord-text{
+  margin-top:7px;
+  color:#777;
+  font-size:11px;
+}
+.discord-main{
+  flex-shrink:0;
+  padding:11px 15px;
+  border-radius:9px;
+  background:#5865F2;
+  color:#fff;
+  text-decoration:none;
+  font-size:10px;
+  font-weight:bold;
+  letter-spacing:1px;
+}
+.discord-main:hover{filter:brightness(1.12)}
+@media(max-width:650px){
+  .discord-card{flex-direction:column;align-items:stretch;text-align:center}
+  .discord-main{text-align:center}
+}
+
+.admin-exclusive{margin:35px auto 0;max-width:900px}
+.admin-banner{
+  display:flex;justify-content:space-between;align-items:center;gap:15px;
+  padding:18px;border-radius:16px;
+  border:1px solid rgba(255,80,20,.3);
+  background:linear-gradient(135deg,rgba(110,25,5,.4),rgba(20,8,8,.8));
+}
+.admin-big{font-weight:900;letter-spacing:3px;color:#ff8a55}
+.admin-sub{margin-top:6px;font-size:9px;letter-spacing:2px;color:#777}
+.admin-grid{display:grid;grid-template-columns:1.4fr 1fr;gap:16px;margin-top:16px}
+.draw-author input{
+  width:100%;padding:10px;margin-bottom:9px;border-radius:8px;
+  border:1px solid rgba(255,255,255,.1);background:#0c0808;color:#fff;outline:none;
+}
+.color-tools{display:flex;align-items:center;gap:6px;flex-wrap:wrap;margin-bottom:9px}
+.color-tools span{font-size:9px;letter-spacing:2px;color:#666;margin-right:3px}
+.color-dot{
+  width:25px;height:25px;border-radius:50%;border:2px solid rgba(255,255,255,.25);
+  cursor:pointer;
+}
+.admin-control-list{display:flex;flex-direction:column;gap:9px}
+.admin-drawings{display:flex;flex-direction:column;gap:9px;max-height:300px;overflow:auto}
+.admin-drawing{
+  padding:10px;border-radius:10px;background:rgba(0,0,0,.3);
+  display:flex;align-items:center;justify-content:space-between;gap:10px;text-align:left;
+}
+.admin-drawing-info{font-size:10px;color:#888}
+.admin-drawing-info strong{display:block;color:#ff8a55;margin-bottom:4px}
+.admin-drawing button{flex-shrink:0}
+@media(max-width:750px){
+  .admin-grid{grid-template-columns:1fr}
+  .admin-banner{flex-direction:column;align-items:stretch}
+}
+/* Creador */
+.creator{
+  margin-top:35px;
+  padding-top:25px;
+  border-top:1px solid rgba(255,255,255,.07);
+}
+.creator-label{font-size:9px;letter-spacing:4px;color:#555}
+.creator-name{margin-top:7px;font-size:17px;letter-spacing:3px}
+.ig{
+  display:inline-block;
+  margin-top:9px;
+  color:#ff7b45;
+  text-decoration:none;
+  font-size:12px;
+  letter-spacing:2px;
+}
+.ig:hover{text-decoration:underline}
+
+.bottom{
+  margin-top:24px;
+  font-size:11px;
+  letter-spacing:5px;
+  color:#666;
+}
+.bottom strong{color:#aaa}
+
+/* Modal de mensaje */
+.toast{
+  position:fixed;
+  left:50%;
+  bottom:28px;
+  z-index:10;
+  transform:translate(-50%,20px);
+  opacity:0;
+  pointer-events:none;
+  padding:14px 20px;
+  border-radius:12px;
+  border:1px solid rgba(255,180,0,.3);
+  background:rgba(25,15,4,.92);
+  color:#ffe49a;
+  box-shadow:0 10px 35px rgba(0,0,0,.4);
+  transition:.3s;
+  font-size:13px;
+}
+.toast.show{opacity:1;transform:translate(-50%,0)}
+
+@media(max-width:650px){
+  .nav{margin-top:10px}
+  .nav-buttons{display:none}
+  .container{padding:42px 15px 35px;margin-top:25px}
+  h1{font-size:65px}
+  .countdown{grid-template-columns:repeat(2,1fr)}
+  .interactive{grid-template-columns:1fr}
+  .trailer-button{width:235px}
+}
+</style>
+</head>
+
+<body>
+
+<div class="bg" id="bg"></div>
+
+<nav class="nav">
+  <div class="brand">LAVA RUN</div>
+  <div class="nav-buttons">
+    <button class="nav-btn" onclick="scrollToSection('trailer')">TRÁILER</button>
+    <button class="nav-btn" onclick="scrollToSection('interactive')">INTERACTÚA</button>
+    <button class="nav-btn" onclick="scrollToSection('creator')">CREADOR</button>
+  </div>
+
+<div class="code-search">
+  <button class="search-toggle" type="button" onclick="toggleCodeSearch()" title="Buscar código">⌕</button>
+  <div class="search-panel" id="codeSearchPanel">
+    <input id="codeInput" type="text" inputmode="numeric" maxlength="20"
+           placeholder="Código..." autocomplete="off">
+    <button type="button" onclick="checkCode()">OK</button>
+  </div>
+</div>
+
+</nav>
+
+<main class="container">
+
+  <div class="top">ROBLOX</div>
+  <h1>LAVA RUN</h1>
+  <div class="subtitle">THE RUN BEGINS</div>
+  <div class="date">10 · 09 · 2026</div>
+
+  <div class="countdown">
+    <div class="box"><span class="number" id="days">00</span><span class="label">DÍAS</span></div>
+    <div class="box"><span class="number" id="hours">00</span><span class="label">HORAS</span></div>
+    <div class="box"><span class="number" id="minutes">00</span><span class="label">MINUTOS</span></div>
+    <div class="box"><span class="number" id="seconds">00</span><span class="label">SEGUNDOS</span></div>
+  </div>
+
+  <section id="trailer">
+    <div class="section-title">TRÁILER</div>
+
+    <button id="trailerButton" class="trailer-button" disabled>
+      <span class="lock" id="lock">🔒</span>
+      <span id="buttonText">TRÁILER BLOQUEADO</span>
+    </button>
+
+    <div class="status" id="status">DESBLOQUEO · 10/09/2026</div>
+  </section>
+
+  <section class="interactive" id="interactive">
+
+    <div class="card">
+      <div class="card-title">MENSAJE DE LA LAVA</div>
+
+      <div class="ball-wrap">
+        <button class="ball" onclick="randomMessage()" title="Haz clic">!</button>
+
+        <div class="quote">
+          <strong id="messageTitle">TOCA LA PELOTA</strong>
+          <span id="message">La lava tiene algo que decirte...</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">LAVA AI</div>
+
+      <div class="ai-box">
+        <div class="ai-lock">🔒</div>
+        <div class="ai-name">LAVA AI</div>
+        <div class="ai-status">SISTEMA BLOQUEADO</div>
+        <button class="ai-button" disabled>PRÓXIMAMENTE</button>
+      </div>
+    </div>
+
+  </section>
+
+  
+  <section class="wall" id="wall">
+    <div class="section-title">PARED DE LAVA RUN</div>
+    <p class="wall-help">Deja tu mensaje, emoji o firma. Debes poner un nombre para publicar.</p>
+
+    <div class="wall-form">
+      <input id="wallUser" maxlength="20" placeholder="Tu nombre / username" autocomplete="off">
+      <textarea id="wallMessage" maxlength="180" placeholder="Escribe tu mensaje..."></textarea>
+
+      <div class="wall-tools">
+        <div class="emoji-row">
+          <button type="button" onclick="addEmoji('🔥')">🔥</button>
+          <button type="button" onclick="addEmoji('😎')">😎</button>
+          <button type="button" onclick="addEmoji('😂')">😂</button>
+          <button type="button" onclick="addEmoji('👀')">👀</button>
+          <button type="button" onclick="addEmoji('💀')">💀</button>
+          <button type="button" onclick="addEmoji('⚡')">⚡</button>
+          <button type="button" onclick="addEmoji('🏃')">🏃</button>
+          <button type="button" onclick="addEmoji('🗿')">🗿</button>
+        </div>
+        <button class="publish" type="button" onclick="publishWallMessage()">RAYAR LA PARED</button>
+      </div>
+    </div>
+
+    <div id="wallMessages" class="wall-messages"></div>
+    <div id="wallEmpty" class="wall-empty">Todavía no hay mensajes. Sé el primero en rayar la pared.</div>
+  </section>
+
+
+<section class="discord-section">
+  <div class="section-title">COMMUNITY</div>
+  <div class="discord-card">
+    <div>
+      <div class="discord-title">WAYED COMMUNITY</div>
+      <div class="discord-text">Únete al servidor oficial de Discord de la comunidad.</div>
+    </div>
+    <a class="discord-main" href="https://discord.gg/yM7F6mMAq" target="_blank" rel="noopener">
+      UNIRSE A DISCORD ↗
+    </a>
+  </div>
+</section>
+
+<section class="creator" id="creator">
+    <div class="creator-label">CREADOR</div>
+    <div class="creator-name">WILSON</div>
+    <a class="ig" href="https://www.instagram.com/wuilson_yp/" target="_blank" rel="noopener">
+      @wuilson_yp
+    </a>
+  </section>
+
+  <div class="bottom">
+    <strong>ROBLOX</strong> · PRÓXIMAMENTE
+  </div>
+
+</main>
+
+<div class="toast" id="toast"></div>
+
+<script>
+
+/* =========================================
+   CONFIGURACIÓN
+   ========================================= */
+
+/* Cuando tengas el video, pega aquí el enlace */
+const youtubeURL = "";
+
+/* Fecha de desbloqueo */
+const targetDate = new Date("2026-09-10T00:00:00");
+
+
+const days = document.getElementById("days");
+const hours = document.getElementById("hours");
+const minutes = document.getElementById("minutes");
+const seconds = document.getElementById("seconds");
+
+const button = document.getElementById("trailerButton");
+const buttonText = document.getElementById("buttonText");
+const lock = document.getElementById("lock");
+const status = document.getElementById("status");
+
+
+function updateCountdown(){
+
+  const difference = targetDate - new Date();
+
+  if(difference <= 0){
+    days.textContent = "00";
+    hours.textContent = "00";
+    minutes.textContent = "00";
+    seconds.textContent = "00";
+    unlockTrailer();
+    return;
+  }
+
+  const d = Math.floor(difference / (1000*60*60*24));
+  const h = Math.floor((difference / (1000*60*60)) % 24);
+  const m = Math.floor((difference / (1000*60)) % 60);
+  const s = Math.floor((difference / 1000) % 60);
+
+  days.textContent = String(d).padStart(2,"0");
+  hours.textContent = String(h).padStart(2,"0");
+  minutes.textContent = String(m).padStart(2,"0");
+  seconds.textContent = String(s).padStart(2,"0");
+}
+
+
+function unlockTrailer(){
+
+  button.disabled = false;
+  button.classList.add("unlocked");
+  lock.textContent = "▶";
+  buttonText.textContent = "VER TRÁILER";
+  status.textContent = "TRÁILER DESBLOQUEADO";
+
+  button.onclick = () => {
+    if(youtubeURL){
+      window.open(youtubeURL,"_blank");
+    }else{
+      showToast("El tráiler está desbloqueado, pero todavía no has puesto el video.");
+    }
+  };
+}
+
+
+/* Mensajes de la pelota amarilla */
+const messages = [
+  ["ADVERTENCIA", "No mires atrás. La lava está más cerca de lo que crees."],
+  ["LAVA RUN", "Corre. Salta. Sobrevive."],
+  ["SISTEMA", "La ruta todavía no está segura..."],
+  ["SECRETO", "Quizá haya algo escondido en el mapa."],
+  ["AVISO", "El suelo no siempre será tu amigo."],
+  ["RETO", "¿Crees que puedes llegar hasta el final?"],
+  ["10/09/2026", "Ese día comienza algo grande."],
+  ["ROBLOX", "Prepárate para correr."],
+  ["LAVA", "No te quedes quieto demasiado tiempo."],
+  ["PISTA", "El camino más fácil no siempre es el correcto."]
+];
+
+let lastMessage = -1;
+
+function randomMessage(){
+
+  let index;
+
+  do{
+    index = Math.floor(Math.random()*messages.length);
+  }while(index === lastMessage && messages.length > 1);
+
+  lastMessage = index;
+
+  document.getElementById("messageTitle").textContent = messages[index][0];
+  document.getElementById("message").textContent = messages[index][1];
+
+  showToast(messages[index][0] + " · " + messages[index][1]);
+}
+
+
+/* Notificación */
+let toastTimer;
+
+function showToast(text){
+
+  const toast = document.getElementById("toast");
+
+  toast.textContent = text;
+  toast.classList.add("show");
+
+  clearTimeout(toastTimer);
+
+  toastTimer = setTimeout(() => {
+    toast.classList.remove("show");
+  },3500);
+}
+
+
+/* Navegación */
+function scrollToSection(id){
+
+  document.getElementById(id).scrollIntoView({
+    behavior:"smooth",
+    block:"center"
+  });
+}
+
+
+/* Partículas */
+const bg = document.getElementById("bg");
+
+for(let i=0;i<90;i++){
+
+  const p = document.createElement("span");
+  p.className = "particle";
+
+  const size = 2 + Math.random()*4;
+
+  p.style.width = size+"px";
+  p.style.height = size+"px";
+  p.style.left = Math.random()*100+"%";
+  p.style.animationDuration = (5+Math.random()*8)+"s";
+  p.style.animationDelay = Math.random()*8+"s";
+
+  bg.appendChild(p);
+}
+
+
+
+/* ================================
+   PARED DE MENSAJES
+   Los mensajes se guardan en este navegador.
+   Se filtran antes de publicarse.
+================================ */
+
+const STORAGE_KEY = "lavaRunWallMessages_v1";
+
+/* Lista básica de términos que se censuran.
+   Puedes ampliarla cuando quieras. */
+const blockedWords = [
+  "puto","puta","pendejo","pendeja","idiota","imbecil","imbécil",
+  "estupido","estúpido","estupida","estúpida","cabron","cabrón",
+  "mierda","marica","maricon","maricón","perra","zorra",
+  "fuck","shit","bitch","asshole"
+];
+
+function normalizeText(text){
+  return text
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g,"");
+}
+
+function containsBlockedContent(text){
+  const normalized = normalizeText(text);
+  return blockedWords.some(word => {
+    const clean = normalizeText(word);
+    return normalized.includes(clean);
+  });
+}
+
+function censorText(text){
+  let result = text;
+
+  blockedWords.forEach(word => {
+    const pattern = new RegExp(
+      word.replace(/[.*+?^${}()|[\]\\]/g,"\\$&"),
+      "gi"
+    );
+    result = result.replace(pattern, "•••");
+  });
+
+  return result;
+}
+
+function addEmoji(emoji){
+  const textarea = document.getElementById("wallMessage");
+  textarea.focus();
+  textarea.value += emoji;
+}
+
+function getWallMessages(){
+  try{
+    return JSON.parse(localStorage.getItem(STORAGE_KEY)) || [];
+  }catch{
+    return [];
+  }
+}
+
+function saveWallMessages(messages){
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(messages));
+}
+
+function publishWallMessage(){
+
+  const userInput = document.getElementById("wallUser");
+  const messageInput = document.getElementById("wallMessage");
+
+  const username = userInput.value.trim();
+  const original = messageInput.value.trim();
+
+  if(!username){
+    showToast("⚠️ Pon un username para poder rayar la pared.");
+    userInput.focus();
+    return;
+  }
+
+  if(!original){
+    showToast("⚠️ Escribe un mensaje primero.");
+    messageInput.focus();
+    return;
+  }
+
+  if(username.length < 2){
+    showToast("⚠️ El username debe tener al menos 2 caracteres.");
+    return;
+  }
+
+  /*
+    Si detecta algo inapropiado, NO se publica.
+    Así el mensaje no queda guardado.
+  */
+  if(containsBlockedContent(username) || containsBlockedContent(original)){
+    showToast("🚫 Ese mensaje contiene contenido no permitido y fue eliminado.");
+    messageInput.value = "";
+    return;
+  }
+
+  const messages = getWallMessages();
+
+  messages.unshift({
+    username: username,
+    message: censorText(original),
+    time: new Date().toLocaleString("es-CO",{
+      dateStyle:"short",
+      timeStyle:"short"
+    })
+  });
+
+  /* Máximo 100 mensajes guardados */
+  saveWallMessages(messages.slice(0,100));
+
+  messageInput.value = "";
+  renderWallMessages();
+
+  showToast("🔥 ¡Mensaje publicado en la pared!");
+}
+
+function escapeHTML(text){
+  const div = document.createElement("div");
+  div.textContent = text;
+  return div.innerHTML;
+}
+
+function renderWallMessages(){
+
+  const list = document.getElementById("wallMessages");
+  const empty = document.getElementById("wallEmpty");
+  const messages = getWallMessages();
+
+  list.innerHTML = "";
+
+  empty.style.display = messages.length ? "none" : "block";
+
+  messages.forEach(item => {
+
+    const article = document.createElement("article");
+    article.className = "wall-message";
+
+    article.innerHTML = `
+      <div class="wall-user">@${escapeHTML(item.username)}</div>
+      <div class="wall-text">${escapeHTML(item.message)}</div>
+      <div class="wall-time">${escapeHTML(item.time)}</div>
+    `;
+
+    list.appendChild(article);
+  });
+}
+
+renderWallMessages();
+
+
+
+/* ADMIN + DIBUJOS */
+let brushColor = "#111";
+let publishedDrawings = JSON.parse(localStorage.getItem("lavaRunPublishedDrawings") || "[]");
+
+function unlockAdminMode(){
+  document.getElementById("adminExclusive").style.display = "block";
+  document.getElementById("codeSearchPanel").classList.remove("open");
+  document.getElementById("communityTools").scrollIntoView({behavior:"smooth",block:"center"});
+  renderAdminDrawings();
+}
+
+function adminLogout(){
+  sessionStorage.removeItem("lavaRunAdmin");
+  document.getElementById("adminExclusive").style.display = "none";
+  showToast("🔒 Modo admin cerrado.");
+}
+
+function setBrushColor(color){
+  brushColor = color;
+  ctx.strokeStyle = color;
+}
+
+function publishDrawing(){
+  const username = document.getElementById("drawUser").value.trim();
+
+  if(!username){
+    showToast("⚠️ Pon tu username antes de publicar.");
+    document.getElementById("drawUser").focus();
+    return;
+  }
+
+  const data = canvas.toDataURL("image/png");
+
+  publishedDrawings.unshift({
+    id: Date.now(),
+    username: username,
+    image: data,
+    time: new Date().toLocaleString("es-CO")
+  });
+
+  publishedDrawings = publishedDrawings.slice(0,30);
+  localStorage.setItem("lavaRunPublishedDrawings",JSON.stringify(publishedDrawings));
+
+  clearDrawing();
+  document.getElementById("drawUser").value = "";
+  showToast("🎨 Dibujo publicado.");
+}
+
+function renderAdminDrawings(){
+  const box = document.getElementById("adminDrawings");
+  if(!box) return;
+
+  box.innerHTML = "";
+
+  if(!publishedDrawings.length){
+    box.innerHTML = '<div class="wall-empty">No hay dibujos publicados.</div>';
+    return;
+  }
+
+  publishedDrawings.forEach(item=>{
+    const el=document.createElement("div");
+    el.className="admin-drawing";
+    el.innerHTML=`
+      <div class="admin-drawing-info">
+        <strong>@${escapeHTML(item.username)}</strong>
+        ${escapeHTML(item.time)}
+      </div>
+      <button class="tool-btn" onclick="deleteDrawing(${item.id})">🗑 BORRAR</button>
+    `;
+    box.appendChild(el);
+  });
+}
+
+function deleteDrawing(id){
+  publishedDrawings=publishedDrawings.filter(x=>x.id!==id);
+  localStorage.setItem("lavaRunPublishedDrawings",JSON.stringify(publishedDrawings));
+  renderAdminDrawings();
+  showToast("🗑️ Dibujo eliminado por Wilson.");
+}
+
+function clearAllLocalCommunity(){
+  if(!confirm("¿Borrar mensajes, dibujos y visitas guardados en este navegador?")) return;
+  localStorage.removeItem("lavaRunWallMessages_v1");
+  localStorage.removeItem("lavaRunPublishedDrawings");
+  localStorage.removeItem("lavaRunVisitors");
+  publishedDrawings=[];
+  renderWallMessages();
+  renderAdminMessages();
+  renderAdminDrawings();
+  renderVisitors();
+  showToast("🧹 Datos locales limpiados.");
+}
+
+if(sessionStorage.getItem("lavaRunAdmin")==="true"){
+  unlockAdminMode();
+}
+
+function toggleCodeSearch(){
+  document.getElementById("codeSearchPanel").classList.toggle("open");
+  document.getElementById("codeInput").focus();
+}
+
+function checkCode(){
+  const value = document.getElementById("codeInput").value.trim();
+
+  if(value === "7162611"){
+    sessionStorage.setItem("lavaRunAdmin","true");
+    unlockAdminMode();
+    showToast("🛡️ MODO ADMIN · WILSON ACTIVADO");
+  }else{
+    showToast("❌ Código no encontrado.");
+  }
+}
+
+document.getElementById("codeInput").addEventListener("keydown",function(e){
+  if(e.key === "Enter") checkCode();
+});
+
+updateCountdown();
+setInterval(updateCountdown,1000);
+
+</script>
+
+</body>
+</html>
